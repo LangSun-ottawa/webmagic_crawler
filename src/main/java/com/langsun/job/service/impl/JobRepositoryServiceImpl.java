@@ -45,7 +45,7 @@ public class JobRepositoryServiceImpl implements JobRepositoryService {
 
     @Override
     public void deleteByDate(String date) {
-
+        jobRepository.deleteByTimeIsLessThanEqual(date);
     }
 
     @Autowired

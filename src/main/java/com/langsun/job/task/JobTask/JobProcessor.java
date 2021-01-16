@@ -31,14 +31,14 @@ public class JobProcessor implements PageProcessor {
     public void process(Page page) {
         List<Selectable> nodes = page.getHtml().xpath("//*[@id=RawSalaryData]/div/table/tbody/tr").nodes();
         String url = page.getUrl().toString();
-        System.out.println("********current url" + url);
+//        System.out.println("********current url" + url);
 
         //detail page --> to save
         if (nodes.size() == 0) {
-            System.out.println("*****save detail data******");
+//            System.out.println("*****save detail data******");
             saveJobInfo(page);
         } else {
-            System.out.println("****add next page*****");
+//            System.out.println("****add next page*****");
             //list page, rawData
             for (Selectable node : nodes) {
                 String jobInfoUrl = node.links().toString();
@@ -51,7 +51,7 @@ public class JobProcessor implements PageProcessor {
                 int i = Integer.parseInt(pageNum) + 1;
                 if (i <= 5) {
                     String npUrl = urlHead + i + urlTail;
-                    System.out.println(npUrl);
+//                    System.out.println(npUrl);
                     page.addTargetRequest(npUrl);
                 }
             }
@@ -115,7 +115,7 @@ public class JobProcessor implements PageProcessor {
     @Scheduled(cron = "0 0 8 1/3 * ? ")
 //    @Scheduled(fixedDelay = 1000*1000*1000)
     public void process() {
-        System.out.println("**********new spider start*************");
+//        System.out.println("**********new spider start*************");
         List<Proxy> proxies = ipProxyService.findAllProxy();
         int i = new Random().nextInt(proxies.size() - 1);
         Proxy proxy = proxies.get(i);

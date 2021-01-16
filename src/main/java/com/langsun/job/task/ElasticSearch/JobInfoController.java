@@ -37,47 +37,11 @@ public class JobInfoController {
     @Autowired
     private JobRepositoryService jobRepositoryService;
 
-    @PostMapping
-    public String jobInfoDataInsert() {
-        //initial page
-        int p = 0;
-
-        int pageSize =0;
-
-        do {
-            Page<JobInfo> page = jobInfoService.findJobInfoByPage(p, 500);
-            List<JobInfoField> list = new ArrayList<>();
-
-            for (JobInfo jobInfo : page.getContent()) {
-                JobInfoField jobInfoField = new JobInfoField();
-                BeanUtils.copyProperties(jobInfo, jobInfoField);
-                list.add(jobInfoField);
-            }
-            jobRepositoryService.saveAll(list);
-            p++;
-            pageSize = page.getContent().size();
-        } while (pageSize == 500);
-
-        return "insert done";
-    }
-
-    @DeleteMapping(value ="/d1l1te")
-    public String deleteAll() {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        Calendar rightNow = Calendar.getInstance();
-        rightNow.setTime(date);
-        rightNow.add(Calendar.DAY_OF_YEAR, -12);
-        Date time = rightNow.getTime();
-        String format = simpleDateFormat.format(time);
-        jobRepositoryService.deleteByDate(format);
-        return "delete done";
-    }
 
     @PostMapping(value = "/test")
     @CrossOrigin
     public String test(@RequestBody MyTest test) {
-        System.out.println(test);
+//        System.out.println(test);
         test.setState("success!!");
         ObjectMapper objectMapper = new ObjectMapper();
         try {
@@ -92,7 +56,7 @@ public class JobInfoController {
     @PostMapping(value = "/search")
     @CrossOrigin
     public String search(@RequestBody Params params) {
-        System.out.println(params);
+//        System.out.println(params);
         Integer page = params.getPage() - 1;
 
         if (page == null || page < 0) {
@@ -104,7 +68,7 @@ public class JobInfoController {
 
         try {
             JobResult result = jobRepositoryService.search(params.getLocation(), params.getPage(), params.getRate(), params.getKeyWord());
-            System.out.println(result);
+//            System.out.println(result);
             return objectMapper.writeValueAsString(result);
         } catch (Exception e) {
             e.printStackTrace();
